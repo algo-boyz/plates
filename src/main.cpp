@@ -11,13 +11,13 @@
 
 int main() {
     // CONFIG
-    const std::string model_path  = "models/rfdetr_large.onnx";
+    const std::string model_path  = "models/rfdetr_alpr_optimized.onnx";
     const std::string video_path  = "sample.mp4";
     const std::string output_path = "output.mp4";
     const std::string device      = "coreml";
     const float detection_threshold = 0.30f;
     const int max_boxes = 100;
-    const int plate_class_id = 1;
+    const int plate_class_id = 0;
 
     std::cout << "Loading RF-DETR model...\n";
     rfdetr::RFDETRModel model(model_path, device);

@@ -1,6 +1,8 @@
 # Compile
 
 ```zsh
+hf download autolane/rfdetr-alpr rfdetr_alpr_optimized.onnx --local-dir .
+
 mkdir build && cd build
 cmake ..
 cmake -DONNXRUNTIME_ROOT_DIR="~/work/libs/onnxruntime-osx-arm64-1.22" ..
@@ -8,10 +10,11 @@ cmake --build .
 
 ```
 
-# Translated from python to C++
+
+
+# [Python Vehicle-Plates-Detection-and-Reading-System](https://github.com/kemalkilicaslan/Vehicle-Plates-Detection-and-Reading-System)
 
 ```python
-Let's translate this python example to c++
 # Vehicle Plates Detection and Reading System
 # Import the necessary libraries
 import cv2

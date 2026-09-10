@@ -92,36 +92,27 @@ struct PlateOCR::Impl {
         else
             cv::cvtColor(plate_bgr, rgb, cv::COLOR_BGR2GRAY);
 
+        // Keep as uint8, channels-last
         cv::Mat resized;
         cv::resize(rgb, resized, cv::Size(img_w, img_h), 0, 0, cv::INTER_LINEAR);
 
-        // HWC uint8 → NCHW float32 [0,1]  (most fast-plate-ocr models expect this)
-        cv::Mat float_img;
-        resized.convertTo(float_img, CV_32F, 1.0 / 255.0);
+        // Keep as uint8, channels-last (NHWC) — this is what the official
+        // fast-plate-ocr ONNX exports expect.
+        if (!resized.isContinuous())
+            resized = resized.clone();
 
         const int channels = is_rgb ? 3 : 1;
-        std::vector<float> input_tensor(1 * channels * img_h * img_w);
+        std::vector<uint8_t> input_tensor(
+            resized.data,
+            resized.data + resized.total() * resized.channels());
 
-        if (channels == 3) {
-            // HWC → CHW
-            std::vector<cv::Mat> chw(3);
-            cv::split(float_img, chw);
-            size_t offset = 0;
-            for (int c = 0; c < 3; ++c) {
-                std::memcpy(input_tensor.data() + offset,
-                            chw[c].data,
-                            img_h * img_w * sizeof(float));
-                offset += img_h * img_w;
-            }
-        } else {
-            std::memcpy(input_tensor.data(), float_img.data, img_h * img_w * sizeof(float));
-        }
+        // NHWC
+        std::array<int64_t, 4> input_shape{1, img_h, img_w, channels};
 
-        // ---- Inference ----
-        std::array<int64_t, 4> input_shape{1, channels, img_h, img_w};
+        Ort::MemoryInfo mem_info =
+            Ort::MemoryInfo::CreateCpu(OrtArenaAllocator, OrtMemTypeDefault);
 
-        Ort::MemoryInfo mem_info = Ort::MemoryInfo::CreateCpu(OrtArenaAllocator, OrtMemTypeDefault);
-        Ort::Value input_ort = Ort::Value::CreateTensor<float>(
+        Ort::Value input_ort = Ort::Value::CreateTensor<uint8_t>(
             mem_info, input_tensor.data(), input_tensor.size(),
             input_shape.data(), input_shape.size());
 
