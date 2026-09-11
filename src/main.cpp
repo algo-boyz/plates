@@ -11,9 +11,9 @@
 
 int main() {
     // CONFIG
-    const std::string model_path  = "models/rfdetr_alpr_optimized.onnx";
-    const std::string video_path  = "sample.mp4";
-    const std::string output_path = "output.mp4";
+    const std::string model_path  = "models/rf-detr-large-2026.onnx";
+    const std::string video_path  = "assets/sample.mp4";
+    const std::string output_path = "assets/output.mp4";
     const std::string device      = "coreml";
     const float detection_threshold = 0.30f;
     const int max_boxes = 100;
