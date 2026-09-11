@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(OpenCV REQUIRED)
 
 set(RFDETR_ROOT "$ENV{HOME}/work/libs/RF-DETR-ONNX/cpp")
-set(ONNXRUNTIME_ROOT_DIR "$ENV{HOME}/work/libs/onnxruntime-osx-arm64-1.22.0")
+set(ONNXRUNTIME_ROOT_DIR "$ENV{HOME}/work/libs/onnxruntime-osx-arm64-1.29.0")
 
 add_executable(plates
     src/main.cpp

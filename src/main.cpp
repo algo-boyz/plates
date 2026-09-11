@@ -11,10 +11,10 @@
 
 int main() {
     // CONFIG
-    const std::string model_path  = "models/rf-detr-large-2026.onnx";
+    const std::string model_path  = "models/rfdetr_alpr_int8.onnx";
     const std::string video_path  = "assets/sample.mp4";
     const std::string output_path = "assets/output.mp4";
-    const std::string device      = "coreml";
+    const std::string device      = "cpu";
     const float detection_threshold = 0.30f;
     const int max_boxes = 100;
     const int plate_class_id = 0;
@@ -56,6 +56,7 @@ int main() {
         // Collect plate boxes
         std::vector<cv::Rect> plate_boxes;
         for (const auto& d : detections) {
+            std::cout << "label=" << d.label << " score=" << d.score << "\n";
             if (d.label == plate_class_id) {
                 const auto& b = d.unnormalizedBox;
                 cv::Rect box(
