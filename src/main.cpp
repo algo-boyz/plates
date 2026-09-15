@@ -11,7 +11,7 @@
 
 int main() {
     // CONFIG
-    const std::string model_path  = "models/checkpoint_best_total.pth";
+    const std::string model_path  = "models/rfdetr-custom.onnx";
     const std::string video_path  = "assets/sample.mp4";
     const std::string output_path = "assets/output.mp4";
     const std::string device      = "cpu";
