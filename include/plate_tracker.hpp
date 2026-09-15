@@ -22,7 +22,7 @@ public:
 private:
     std::vector<PlateTrack> tracks_;
     static constexpr float MATCH_IOU = 0.20f;
-    static constexpr int   MAX_MISSES = 60;
+    static constexpr int   MAX_MISSES = 4;
 
     static float iou(const cv::Rect& a, const cv::Rect& b);
 };
