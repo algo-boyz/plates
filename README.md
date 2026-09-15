@@ -1,16 +1,3 @@
-# Compile
-
-```zsh
-brew install hf
-hf download hf://PierreMarieCurie/rf-detr-onnx/rf-detr-large-2026.onnx  --local-dir models
-
-mkdir build && cd build
-cmake ..
-cmake -DONNXRUNTIME_ROOT_DIR="~/work/libs/onnxruntime-osx-arm64-1.22" ..
-cmake --build .
-
-```
-
 # [Python Vehicle-Plates-Detection-and-Reading-System](https://github.com/kemalkilicaslan/Vehicle-Plates-Detection-and-Reading-System)
 
 ```python
